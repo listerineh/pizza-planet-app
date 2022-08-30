@@ -1,0 +1,43 @@
+name: pytest CI
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Detect changes
+        id: changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            app:
+              - 'app/**'
+          base: main
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Python
+        if: steps.changes.outputs.app == 'true'
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Python dependencies
+        if: steps.changes.outputs.app == 'true'
+        run: |
+          source .venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Test with pytest
+        if: steps.changes.outputs.app == 'true'
+        run: |
+          source .venv/bin/activate
+          python -m pytest -v
+        working-directory: ./${{ env.API_DIR }}

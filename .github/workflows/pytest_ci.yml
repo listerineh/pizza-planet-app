@@ -16,16 +16,6 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Detect changes
-        id: changes
-        uses: dorny/paths-filter@v2
-        with:
-          filters: |
-            app:
-              - 'app/**'
-          base: main
-          ref: ${{ github.head_ref }}
-
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -36,7 +26,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: Test with pytest
-        if: steps.changes.outputs.app == 'true'
         working-directory: ./${{ env.TEST_DIR }}
         run: |
           python -m pytest -v

@@ -24,19 +24,19 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Setup Python
-        if: steps.changes.outputs.app == 'true'
+        #if: steps.changes.outputs.app == 'true'
         uses: actions/setup-python@v2
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Python dependencies
-        if: steps.changes.outputs.app == 'true'
+        #if: steps.changes.outputs.app == 'true'
         run: |
           source .venv/bin/activate
           pip install -r requirements.txt
 
       - name: Test with pytest
-        if: steps.changes.outputs.app == 'true'
+        #if: steps.changes.outputs.app == 'true'
         run: |
           source .venv/bin/activate
           python -m pytest -v

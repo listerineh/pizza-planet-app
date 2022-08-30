@@ -5,8 +5,11 @@ on:
   push:
 
 jobs:
-  test:
+  CI:
     runs-on: ubuntu-latest
+    env:
+      TEST_DIR: app/test/
+      PYTHON_VERSION: 3.8
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -24,18 +27,15 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Setup Python
-        #if: steps.changes.outputs.app == 'true'
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: "${{ env.PYTHON_VERSION }}"
 
       - name: Install Python dependencies
-        #if: steps.changes.outputs.app == 'true'
         run: |
           pip install -r requirements.txt
 
       - name: Test with pytest
-        #if: steps.changes.outputs.app == 'true'
-        working_directory: "./app/test"
+        working-directory: ./${{ env.TEST_DIR }}
         run: |
           python -m pytest -v

@@ -39,4 +39,3 @@ jobs:
         working_directory: "./app/test"
         run: |
           python -m pytest -v
-        working-directory: ./${{ env.API_DIR }}

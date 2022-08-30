@@ -32,12 +32,11 @@ jobs:
       - name: Install Python dependencies
         #if: steps.changes.outputs.app == 'true'
         run: |
-          source .venv/bin/activate
           pip install -r requirements.txt
 
       - name: Test with pytest
         #if: steps.changes.outputs.app == 'true'
+        working_directory: "./app/test"
         run: |
-          source .venv/bin/activate
           python -m pytest -v
         working-directory: ./${{ env.API_DIR }}

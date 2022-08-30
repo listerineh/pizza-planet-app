@@ -2,7 +2,6 @@ name: pytest CI
 
 on:
   pull_request:
-  push:
 
 jobs:
   CI:

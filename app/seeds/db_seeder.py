@@ -1,66 +1,59 @@
-from flask_seeder import Seeder, Faker, generator
+from flask_seeder import Seeder
+from random import randint
 
-from app.repositories.models import Size, Ingredient, Beverage, Order
-from app.seeds.utils.custom_generators import ListGenerator, PriceGenerator
-
-
-sizes_len = 5
-ingredients_len = 10
-beverages_len = 5
-
-size_names = ["small", "personal", "medium", "big", "familiar"]
-size_prices = [5.99, 9.99, 13.99, 19.99, 24.99]
-ingredients = ["pepperoni", "cheese", "salami", "tomato",
-               "chicken", "meat", "mushrooms", "basil", "sardine", "cauliflower"]
-beverages = ["pepsi", "fanta", "seven up", "dr pepper", "gallito"]
+from app.seeds.utils.functions import get_orders_order, get_random_dates
+from app.seeds.fakers import *
+from app.seeds.data.sizes import *
+from app.seeds.data.lists import client_names
+from app.test.utils.functions import get_random_phone
 
 
-class SizeSeeder(Seeder):
+class DBSeeder(Seeder):
 
-    def run(self):
-        def create_faker():
-            return Faker(
-                cls=Size,
-                init={
-                    '_id': generator.Sequence(),
-                    'name': ListGenerator(size_names),
-                    'price': ListGenerator(size_prices),
-                }
-            )
-
-        for size in create_faker().create(sizes_len):
-            self.db.session.add(size)
-
-
-class IngredientSeeder(Seeder):
+    def save(self, data: list, name: str):
+        for item in data:
+            self.db.session.add(item)
+        print(
+            f'{len(data)} {name} succesfully added to the database!')
 
     def run(self):
-        def create_faker():
-            return Faker(
-                cls=Ingredient,
-                init={
-                    '_id': generator.Sequence(),
-                    'name': ListGenerator(ingredients),
-                    'price': PriceGenerator(),
-                }
-            )
 
-        for ingredient in create_faker().create(ingredients_len):
-            self.db.session.add(ingredient)
+        # Creating data
 
+        sizes = create_size_faker().create(sizes_len)
+        ingredients = create_ingredient_faker().create(ingredients_len)
+        beverages = create_beverage_faker().create(beverages_len)
 
-class BeverageSeeder(Seeder):
+        # Creating orders
 
-    def run(self):
-        def create_faker():
-            return Faker(
-                cls=Beverage,
-                init={
-                    '_id': generator.Sequence(),
-                    'name': ListGenerator(beverages),
-                    'price': PriceGenerator(),
-                }
-            )
+        orders_order = get_orders_order(users_len, orders_len)
+        counter = 1
+        index = 0
 
-        for beverage in create_faker().create(beverages_len):
-            self.db.session.add(beverage)
+        dates = get_random_dates(orders_len)
+        orders = []
+
+        for order in orders_order:
+            new_order = {
+                '_id': counter,
+                'client_name': client_names[index],
+                'client_dni': client_names[index],
+                'client_address': client_names[index],
+                'client_phone': get_random_phone(),
+                'date': dates[counter-1],
+                'total_price': 0,
+                'size_id': randint(1, sizes_len),
+            }
+
+            for _ in range(order):
+                orders.append(create_order_faker(new_order).create()[0])
+                counter += 1
+
+            index += 1
+
+        # Savind the data
+
+        self.save(sizes, 'sizes')
+        self.save(ingredients, 'ingredients')
+        self.save(beverages, 'beverages')
+        self.save(orders, 'orders')

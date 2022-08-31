@@ -1,8 +1,5 @@
 from flask_seeder import generator
 
-names_file = 'app/seeds/data/names.txt'
-domains_file = 'app/seeds/data/domains.txt'
-
 
 class PriceGenerator(generator.Generator):
 

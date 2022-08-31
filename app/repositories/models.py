@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from app.plugins import db
 
@@ -9,7 +9,8 @@ class Order(db.Model):
     client_dni = db.Column(db.String(10))
     client_address = db.Column(db.String(128))
     client_phone = db.Column(db.String(15))
-    date = db.Column(db.DateTime, default=datetime.utcnow)
+    date = db.Column(db.String(20), default=str(
+        date.today().strftime("%d/%m/%Y")))
     total_price = db.Column(db.Float)
     size_id = db.Column(db.Integer, db.ForeignKey('size._id'))
 

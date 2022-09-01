@@ -75,6 +75,8 @@ python3 manage.py fill_db
 python3 manage.py drop_db
 ```
 
+> **IMPORTANT:** _If you want to fill again the database you'll need to drop the current one first!_ :shipit:
+
 - If you want to use the hot reload feature set FLASK_ENV before running the project:
 
 _For linux/MacOS users:_

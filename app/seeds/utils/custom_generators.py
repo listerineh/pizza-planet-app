@@ -3,7 +3,7 @@ from flask_seeder import generator
 
 class PriceGenerator(generator.Generator):
 
-    def __init__(self, initial: int = 1, final: int = 10, **kwargs):
+    def __init__(self, initial: int = 1, final: int = 5, **kwargs):
         super().__init__(**kwargs)
         self._initial = initial
         self._final = final

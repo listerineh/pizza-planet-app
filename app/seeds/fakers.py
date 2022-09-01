@@ -60,7 +60,7 @@ def create_ingredients_detail_faker(data: dict):
     return Faker(
         cls=IngredientsDetail,
         init={
-            '_id': data['id'],
+            '_id': data['_id'],
             'ingredient_price': data['ingredient_price'],
             'order_id': data['order_id'],
             'ingredient_id': data['ingredient_id'],
@@ -72,7 +72,7 @@ def create_beverages_detail_faker(data: dict):
     return Faker(
         cls=BeveragesDetail,
         init={
-            '_id': data['id'],
+            '_id': data['_id'],
             'beverage_price': data['beverage_price'],
             'order_id': data['order_id'],
             'beverage_id': data['beverage_id'],

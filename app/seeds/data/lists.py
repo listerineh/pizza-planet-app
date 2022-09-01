@@ -28,7 +28,12 @@ beverages = ['pepsi',
              'gallito']
 
 client_names = ['Liam',
+                'Wladymir',
+                'Ana',
+                'Carmen',
+                'Juan',
                 'Olivia',
                 'Noah',
                 'Emma',
+                'Carlos',
                 'Oliver']

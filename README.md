@@ -63,6 +63,18 @@ python3 manage.py db migrate
 python3 manage.py db upgrade
 ```
 
+- Fill the database with random data:
+
+```bash
+python3 manage.py fill_db
+```
+
+- Drop the database data:
+
+```bash
+python3 manage.py drop_db
+```
+
 - If you want to use the hot reload feature set FLASK_ENV before running the project:
 
 _For linux/MacOS users:_

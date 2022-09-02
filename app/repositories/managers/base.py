@@ -1,9 +1,10 @@
 from typing import Any, Optional
 
 from app.plugins import db, ma
+from app.common.singleton import SingletonMeta
 
 
-class BaseManager:
+class BaseManager(metaclass=SingletonMeta):
     model: Optional[db.Model] = None
     serializer: Optional[ma.SQLAlchemyAutoSchema] = None
     session = db.session

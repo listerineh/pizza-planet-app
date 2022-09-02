@@ -5,9 +5,10 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from app.plugins import db
 from ..models import Order, IngredientsDetail, Ingredient
+from app.common.singleton import SingletonMeta
 
 
-class ReportManager:
+class ReportManager(metaclass=SingletonMeta):
     order_model = Order
     ingredients_detail_model = IngredientsDetail
     session = db.session

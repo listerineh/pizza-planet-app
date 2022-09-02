@@ -1,8 +1,10 @@
 from sqlalchemy.exc import SQLAlchemyError
+
 from ..repositories.managers import ReportManager
+from app.common.singleton import SingletonMeta
 
 
-class ReportController():
+class ReportController(metaclass=SingletonMeta):
     manager = ReportManager
 
     @classmethod

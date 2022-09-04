@@ -21,7 +21,3 @@ class OrderManager(BaseManager):
                              for beverage in beverages))
         cls.session.commit()
         return cls.serializer().dump(new_order)
-
-    @classmethod
-    def update(cls):
-        raise NotImplementedError(f'Method not suported for {cls.__name__}')

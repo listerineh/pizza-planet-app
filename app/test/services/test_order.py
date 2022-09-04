@@ -21,12 +21,16 @@ def test_update_order_service(client, create_order, order_uri):
         'client_dni': get_random_string(),
         'client_address': get_random_string(),
         'client_phone': get_random_phone(),
+        'size_id': current_order['size']['_id'],
     }
     response = client.put(order_uri, json=update_data)
     pytest.assume(response.status.startswith('200'))
     updated_order = response.json
+    size_id = update_data.pop('size_id', None)
     for param, value in update_data.items():
-        pytest.assume(updated_order[param] == value)
+        pytest.assume(param in updated_order)
+        pytest.assume(updated_order['_id'])
+        pytest.assume(size_id == updated_order['size']['_id'])
 
 
 def test_get_order_by_id_service(client, create_order, order_uri):

@@ -76,31 +76,17 @@ def test_update_order(app, ingredients, beverages, size, client_data):
     created_order, _ = OrderController.create(order)
     updated_fields = {
         '_id': created_order['_id'],
-        **order,
         'client_name': 'updated',
         'client_dni': 'updated',
         'client_address': 'updated',
         'client_phone': 'updated',
     }
     updated_order, error = OrderController.update(updated_fields)
-    print(updated_order)
-    print(error)
     size_id = order.pop('size_id', None)
-    ingredient_ids = order.pop('ingredients', [])
-    beverage_ids = order.pop('beverages', [])
     pytest.assume(error is None)
     for param, value in order.items():
-        pytest.assume(param in updated_order)
         pytest.assume(updated_order['_id'])
         pytest.assume(size_id == updated_order['size']['_id'])
-
-        ingredients_in_detail = set(
-            item['ingredient']['_id'] for item in updated_order['ingredientsDetail'])
-        pytest.assume(not ingredients_in_detail.difference(ingredient_ids))
-
-        beverages_in_detail = set(
-            item['beverage']['_id'] for item in updated_order['beveragesDetail'])
-        pytest.assume(not beverages_in_detail.difference(beverage_ids))
 
 
 def test_get_by_id(app, ingredients, beverages, size, client_data):
